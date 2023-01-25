@@ -36,9 +36,9 @@ Au sein d'un bloc, il sera possible de rajouter :
 
 ## Utilisateur connecté ayant le rôle ADMIN
 Un super utilisateur pourra :
-	- ajouter/modifier/désactiver/supprimer des catégories
-	- ajouter/modifier/désactiver un compte utilisateur
-	- modérer le contenu des utilisateurs (Désactiver certains contenus). 
+ - ajouter/modifier/désactiver/supprimer des catégories
+ - ajouter/modifier/désactiver un compte utilisateur
+ - modérer le contenu des utilisateurs (Désactiver certains contenus). 
 
 Cette application sera livrée au client avec un compte super utilisateur déjà présent dans la base de données.  Ce dernier sera le seul membre autorisé à créer des utilisateurs.
 
