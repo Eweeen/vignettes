@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vignettes | S'inscrire{% endblock %}
+
+{% block css %}
+<style>
+    form {
+        min-width: 250px;
+        max-width: 400px;
+        width: 100%;
+        margin: auto;
+    }
+    form > div {
+        margin-bottom: 16px;
+        position: relative;
+    }
+    form div img {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        width: 28px;
+        height: 28px;
+    }
+    form div input {
+        width: 100%;
+        padding: 16px;
+        padding-left: 56px;
+        background-color: #d1d5db;
+        border-radius: 12px;
+    }
+    form input::placeholder {
+        color: black;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+    <div class="flex h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="w-full">
+            <h2 class="mb-20 text-center text-3xl font-bold tracking-tight text-gray-900">
+                <a href="/">Vignettes</a>
+            </h2>
+
+            {{ form_start(registrationForm) }}
+                <div>
+                    <img src="{{ asset('icons/sms.svg') }}" />
+                    {{ form_row(registrationForm.email) }}
+                </div>
+                <div>
+                    <img src="{{ asset('icons/profile.svg') }}" />
+                    {{ form_row(registrationForm.name) }}
+                </div>
+                <div>
+                    <img src="{{ asset('icons/key.svg') }}" />
+                    {{ form_row(registrationForm.password) }}
+                </div>
+
+
+                <button type="submit" class="mb-6 bg-gray-600 text-white p-4 w-full rounded-xl">
+                    S'inscrire
+                </button>
+
+                <div class="text-gray-500 text-center">
+                    Déjà un compte ? <a href="{{ path('app_login') }}" class="font-semibold">Connectez-vous</a>
+                </div>
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+{% endblock %}

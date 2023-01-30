@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vignettes | Se connecter{% endblock %}
+
+{% block body %}
+    <div class="flex h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="w-full">
+            <h2 class="mb-20 text-center text-3xl font-bold tracking-tight text-gray-900">
+                <a href="/">Vignettes</a>
+            </h2>
+
+            <form action="{{ path('app_login') }}" method="post" class="min-w-[250px] max-w-[400px] w-full m-auto">
+                {% if error %}
+                    <div class="w-full bg-red-600 rounded-lg py-3 px-6 text-white mb-4">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                <div class="mb-4 relative">
+                    <img src="{{ asset('icons/profile.svg') }}" class="absolute top-[14px] left-[14px] w-7 h-7" />
+                    <input type="text" id="username" name="_username" value="{{ last_username }}" class="w-full pl-14 p-4 bg-gray-300 rounded-xl placeholder:text-black" placeholder="E-mail">
+                </div>
+                <div class="mb-6 relative">
+                    <img src="{{ asset('icons/key.svg') }}" class="absolute top-[14px] left-[14px] w-7 h-7" />
+                    <input type="password" id="password" name="_password" class="w-full pl-14 p-4 bg-gray-300 rounded-xl placeholder:text-black" placeholder="Mot de passe">
+                </div>
+
+                {# If you want to control the URL the user is redirected to on success
+                <input type="hidden" name="_target_path" value="/account"> #}
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <button type="submit" class="mb-6 bg-gray-600 text-white p-4 w-full rounded-xl">
+                    Se connecter
+                </button>
+
+                <div class="text-gray-500 text-center">
+                    Pas de compte ? <a href="{{ path('app_register') }}" class="font-semibold">Inscrivez-vous</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

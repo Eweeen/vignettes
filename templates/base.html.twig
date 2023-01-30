@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
@@ -9,11 +9,32 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
+        {% block css %}{% endblock %}
+
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body class="h-[calc(100vh-36px)]">
+        {% if app.request.attributes.get('_route') != 'app_login' and app.request.attributes.get('_route') != 'app_register' %}
+        <nav class="pt-14 flex flex-col items-center gap-5">
+            <h1 class="text-3xl">Vignettes</h1>
+        
+            <div class="flex gap-8">
+                <a href="{{ path('app_home') }}" class="{{ app.request.attributes.get('_route') == 'app_home' ? 'font-semibold' : '' }} text-md">Dashboard</a>
+        
+                {% if app.user %}
+                <a href="{{ path('app_profile') }}" class="{{ app.request.attributes.get('_route') == 'app_profile' ? 'font-semibold' : '' }} text-md">Mon profil</a>
+                <a href="/logout" class="text-md">Déconnexion</a>
+                {% else %}
+                <a href="/login" class="text-md">Se connecter</a>
+                {% endif %}
+            </div>
+        </nav>
+        {% endif %}
+
         {% block body %}{% endblock %}
+
+        {% block scripts %}{% endblock %}
     </body>
 </html>
