@@ -47,3 +47,36 @@ Un super utilisateur aura également la possibilité de configurer:
  - Reglage de l'opacité du fond
  - Format des blocs possibles (en fonction du device)
 
+# Commandes
+
+## Controller & Entité
+
+```
+php bin/console make:entity
+```
+
+```
+php bin/console make:controller <controller name>
+```
+
+## Base de données
+
+Créer la base de données
+```
+php bin/console doctrine:database:create
+```
+
+Générer une migration
+```
+php bin/console make:migration
+```
+
+Executer les migrations
+```
+php bin/console doctrine:migrations:migrate
+```
+
+Seeder la base
+```
+php bin/console doctrine:fixtures:load
+```
