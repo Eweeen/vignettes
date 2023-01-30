@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vignettes | Admin dashboard{% endblock %}
+
+{% block body %}
+    <section class="py-4 px-8 md:px-14 lg:py-16 lg:px-20">
+        <div class="flex justify-center gap-24">
+            <div class="max-w-[400px] w-full">
+                <header class="flex justify-between mb-7">
+                    <h3 class="font-semibold">Catégories</h3>
+                    <span id="add-category">
+                        <img src="{{ asset('icons/add.svg') }}" class="cursor-pointer" />
+                    </span>
+                </header>
+                <div class="flex flex-col gap-4">
+                    {% for category in categories %}
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg">{{ category.label }}</h3>
+                        <div class="flex gap-3">
+                            <span class="cursor-pointer"><img src="{{ asset('icons/edit.svg') }}" /></span>
+                            <span class="cursor-pointer"><img src="{{ asset('icons/eye.svg') }}" /></span>
+                            <span class="cursor-pointer"><img src="{{ asset('icons/trash.svg') }}" /></span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="max-w-[400px] w-full">
+                <header class="flex justify-between mb-7">
+                    <h3 class="font-semibold">Utilisateurs</h3>
+                    <span>
+                        <img src="{{ asset('icons/add.svg') }}" class="cursor-pointer" />
+                    </span>
+                </header>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================================================================================== -->
+    <!-- ======================================== Modals ======================================== -->
+    <!-- ======================================================================================== -->
+
+    <div id="modal-categories" class="absolute top-0 bottom-0 right-0 left-0 justify-center items-center z-10" style="display: none;">
+        <div id="bg-close-modal" class="absolute w-full h-full bg-black opacity-20 z-20"></div>
+        <div class="bg-white opacity-1 z-30 p-12 rounded-3xl">
+            <header class="flex justify-between mb-8">
+                <h1 class="font-semibold text-xl">Ajouter un nouvelle catégorie</h1>
+                <img src="{{ asset('icons/add.svg') }}" id="close-modal" class="rotate-45 cursor-pointer" />
+            </header>
+
+            <form action="{{ path('add_categorie') }}" method="post" class="min-w-[400px]">
+                <div class="mb-4 relative">
+                    <img src="{{ asset('icons/document-text.svg') }}" class="absolute top-[14px] left-[14px] w-7 h-7" />
+                    <input type="text" id="label" name="label" class="w-full pl-14 p-4 bg-gray-300 rounded-xl placeholder:text-black" placeholder="Nom de la catégorie">
+                </div>
+
+                <button type="submit" class="bg-gray-600 text-white text-sm p-3 w-full rounded-xl">Ajouter</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+<script>
+    const openModal = document.getElementById('add-category');
+    const modal = document.getElementById('modal-categories');
+    const bgCloseModal = document.getElementById('bg-close-modal');
+    const closeModal = document.getElementById('close-modal');
+
+    openModal.addEventListener('click', () => { modal.style.display = "flex"; });
+    bgCloseModal.addEventListener('click', () => { modal.style.display = "none"; });
+    closeModal.addEventListener('click', () => { modal.style.display = "none"; });
+</script>
+{% endblock %}

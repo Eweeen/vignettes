@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vignettes | Mon profil{% endblock %}
+
+{% block body %}
+<section class="py-4 px-8 md:px-14 lg:py-16 lg:px-20">
+    <header class="flex flex-col items-center gap-8 mb-16">
+        <div class="flex flex-col items-center gap-2">
+            <span class="font-semibold">Mon numéro</span>
+            <span>{{ app.user.id }}</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+            <span class="font-semibold">Mon e-mail</span>
+            <span>{{ app.user.email }}</span>
+        </div>
+
+        {% for role in app.user.roles %}
+            {{ role }}
+        {% endfor %}
+    </header>
+
+    <div class="flex flex-col items-center mb-20">
+        <h3 class="font-semibold mb-8">Ajouter un projet</h3>
+
+        <form>
+            <div class="mb-5">
+                <label for="media" class="py-16 px-28 bg-gray-300 flex gap-12 items-center rounded-lg cursor-pointer">
+                    <img src="{{ asset('icons/play.svg') }}" class="w-10 h-10" />
+                    <span class="text-2xl">ou</span>
+                    <img src="{{ asset('icons/music.svg') }}" class="w-10 h-10" />
+                    <span class="text-2xl">ou</span>
+                    <img src="{{ asset('icons/gallery.svg') }}" class="w-10 h-10" />
+                </label>
+                <input type="file" id="media" name="media" class="hidden" />
+            </div>
+            <div class="flex justify-between mb-5">
+                <div class="flex gap-2">
+                    <label for="title" class="font-semibold">TITRE :</label>
+                    <input type="text" id="title" name="title" placeholder="Ajouter un titre" class="placeholder:italic focus:outline-none" />
+                </div>
+                <div class="flex gap-2">
+                    <label class="font-semibold">CATÉGORIE</label>
+                    <select class="bg-transparent focus:outline-none">
+                        <option>Jeux vidéos</option>
+                        <option>Design</option>
+                        <option>Culture numérique</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2 mb-8">
+                <label for="description" class="font-semibold">DESCRIPTION :</label>
+                <textarea id="description" name="description" placeholder="Ajouter une description" class="placeholder:italic focus:outline-none"></textarea>
+            </div>
+
+            <button class="bg-gray-600 text-white p-3 w-full rounded-xl text-sm">Publier</button>
+        </form>
+    </div>
+
+    <div class="flex flex-col items-center">
+        <h3 class="font-semibold mb-8">Mes projets</h3>
+
+        <div class="grid grid-cols-5 gap-4">
+            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
+            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
+            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
+            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
+            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
+            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
+            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
+            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
+            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
+            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
+            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
+            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
+            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
+            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
+            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script></script>
+{% endblock %}
