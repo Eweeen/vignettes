@@ -47,36 +47,81 @@ Un super utilisateur aura également la possibilité de configurer:
  - Reglage de l'opacité du fond
  - Format des blocs possibles (en fonction du device)
 
+# Installation
+
+Cloner le dépôt
+```shell
+git clone git@github.com:Ewen35550/vignettes.git
+```
+
+Installer les dépendances
+```shell
+composer update
+```
+
+```shell
+npm i
+```
+
+```shell
+npm run build
+```
+
+Créer un .env.local et ajouter le ligne suivante puis la modifier avec votre config
+```shell
+DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:3306/app?serverVersion=8&charset=utf8mb4"
+```
+
+Créer la base de données
+```shell
+php bin/console doctrine:database:create
+```
+
+Executer les migrations
+```shell
+php bin/console doctrine:migrations:migrate
+```
+
+Seeder la base
+```shell
+php bin/console doctrine:fixtures:load
+```
+
+Lancer le projet
+```shell
+symfony server:start
+```
+
 # Commandes
 
 ## Controller & Entité
 
-```
+```shell
 php bin/console make:entity
 ```
 
-```
+```shell
 php bin/console make:controller <controller name>
 ```
 
 ## Base de données
 
 Créer la base de données
-```
+```shell
 php bin/console doctrine:database:create
 ```
 
 Générer une migration
-```
+```shell
 php bin/console make:migration
 ```
 
 Executer les migrations
-```
+```shell
 php bin/console doctrine:migrations:migrate
 ```
 
 Seeder la base
-```
+```shell
 php bin/console doctrine:fixtures:load
 ```
