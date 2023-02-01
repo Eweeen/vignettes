@@ -21,15 +21,28 @@
 
 {% block body %}
     <section class="py-4 px-8 md:px-14 lg:py-16 lg:px-20">
+        <div class="flex flex-col gap-2 items-center mb-16">
+            <p class="font-semibold">Filtres</p>
+            <form action="" method="post" id="filterForm">
+                <label for="categories">Catégories :</label>
+                <select id="categories" name="category_filter">
+                    <option value="0">----- Aucun -----</option>
+                    {% for category in categories %}
+                        <option {{ mediaSelected == category.id ? 'selected' : '' }} value="{{ category.id }}">{{ category.label }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+
         <div class="w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-[repeat(6,minmax(150px,200px))] grid-rows-[auto,minmax(150px,200px)] gap-5">
             {% for media in medias %}
                 <div
                     id="modal-media-{{ media.id }}"
-                    class="modal-media bg-gray-300 w-full h-[{{ 200 * media.height }}px] col-span-{{ media.width }} row-span-{{ media.height }} flex justify-center items-center rounded-lg overflow-hidden cursor-pointer"
+                    class="modal-media bg-gray-300  w-[{{ 200 * media.width }}px] h-[{{ 200 * media.height }}px] col-span-{{ media.width }} row-span-{{ media.height }} flex justify-center items-center rounded-lg overflow-hidden cursor-pointer"
                 >
                     <img
                         src="{{ 'mp3' in media.path ? asset('icons/music.svg') : asset('img/uploads/') ~ media.path }}"
-                        class="{{ 'mp3' in media.path ? 'w-20 h-20' : '' }}{{ media.width > media.height ? 'h-full' : 'w-full' }}"
+                        class="{{ 'mp3' in media.path ? 'w-20 h-20' : media.width > media.height ? 'w-full' : 'h-full' }}"
                     />
                 </div>
             {% endfor %}
@@ -52,5 +65,12 @@
         modalBgClose[i].addEventListener('click', () => { modal.style.display = "none"; });
         modalClose[i].addEventListener('click', () => { modal.style.display = "none"; });
     }
+
+    const form = document.getElementById('filterForm');
+    const select = document.getElementById('categories');
+
+    select.addEventListener('change', () => {
+        form.submit();
+    });
 </script>
 {% endblock %}

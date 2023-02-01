@@ -21,7 +21,7 @@
                 </div>
                 <div>
                     <span class="font-semibold">NUMÉRO : </span>
-                    <span>{{ media.user.id }}</span>
+                    <a href="{{ path('app_posts', { 'id': media.user.id }) }}">{{ media.user.id }}</a>
                 </div>
             </div>
 
