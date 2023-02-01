@@ -10,6 +10,9 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
+# Images uploaded
+/public/img/uploads/
+
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
