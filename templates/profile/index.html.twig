@@ -13,16 +13,12 @@
             <span class="font-semibold">Mon e-mail</span>
             <span>{{ app.user.email }}</span>
         </div>
-
-        {% for role in app.user.roles %}
-            {{ role }}
-        {% endfor %}
     </header>
 
     <div class="flex flex-col items-center mb-20">
         <h3 class="font-semibold mb-8">Ajouter un projet</h3>
 
-        <form>
+        <form action="{{ path('add_media') }}" method="post" enctype="multipart/form-data">
             <div class="mb-5">
                 <label for="media" class="py-16 px-28 bg-gray-300 flex gap-12 items-center rounded-lg cursor-pointer">
                     <img src="{{ asset('icons/play.svg') }}" class="w-10 h-10" />
@@ -31,7 +27,7 @@
                     <span class="text-2xl">ou</span>
                     <img src="{{ asset('icons/gallery.svg') }}" class="w-10 h-10" />
                 </label>
-                <input type="file" id="media" name="media" class="hidden" />
+                <input type="file" accept="image/*, audio/*, video/*" id="media" name="media" class="hidden" />
             </div>
             <div class="flex justify-between mb-5">
                 <div class="flex gap-2">
@@ -40,10 +36,10 @@
                 </div>
                 <div class="flex gap-2">
                     <label class="font-semibold">CATÉGORIE</label>
-                    <select class="bg-transparent focus:outline-none">
-                        <option>Jeux vidéos</option>
-                        <option>Design</option>
-                        <option>Culture numérique</option>
+                    <select id="categories" name="categories" class="bg-transparent focus:outline-none">
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.label }}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>
@@ -57,27 +53,27 @@
         </form>
     </div>
 
+    {% if medias|length > 0 %}
     <div class="flex flex-col items-center">
         <h3 class="font-semibold mb-8">Mes projets</h3>
 
-        <div class="grid grid-cols-5 gap-4">
-            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
-            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
-            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
-            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
-            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
-            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
-            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
-            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
-            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
-            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
-            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
-            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
-            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
-            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
-            <div class="w-[200px] h-[200px] bg-gray-300 rounded-lg"></div>
+        <div class="grid grid-cols-4 gap-4">
+            {% for media in medias %}
+                <div class="w-[300px] h-[300px] bg-gray-300 rounded-lg p-4 grid grid-rows-[max-content_max-content_1fr] gap-2">
+                    <h3 class="text-xl font-semibold">{{ media.title }}</h3>
+                    <p class="text-sm">{{ media.description }}</p>
+                    
+                    <div class="flex justify-center items-center">
+                        <img
+                            src="{{ 'mp3' in media.path ? asset('icons/music.svg') : asset('img/uploads/') ~ media.path }}"
+                            class="{{ 'mp3' in media.path ? 'w-20 h-20' : '' }}{{ media.width > media.height ? 'w-full' : 'h-[204px]' }}"
+                        />
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
+    {% endif %}
 </section>
 {% endblock %}
 
