@@ -8,7 +8,7 @@
             <div class="max-w-[400px] w-full">
                 <header class="flex justify-between mb-7">
                     <h3 class="font-semibold">Catégories</h3>
-                    <span id="add-category">
+                    <span id="add-category" title="Ajouter">
                         <img src="{{ asset('icons/add.svg') }}" class="cursor-pointer" />
                     </span>
                 </header>
@@ -16,11 +16,12 @@
                     {% for category in categories %}
                     <div class="flex justify-between items-center">
                         <h3 class="text-lg">{{ category.label }}</h3>
-                        <div class="flex gap-3">
-                            <span id="category-edit-{{ category.id }}" class="modal-category-edit cursor-pointer">
+                        <div class="flex items-center gap-3">
+                            <span class="mr-2" title="Nombre de medias">{{ category.medias|length }}</span>
+                            <span id="category-edit-{{ category.id }}" class="modal-category-edit cursor-pointer" title="Modifier">
                                 <img src="{{ asset('icons/edit.svg') }}" />
                             </span>
-                            <span id="category-delete-{{ category.id }}" class="modal-category-delete cursor-pointer">
+                            <span id="category-delete-{{ category.id }}" class="modal-category-delete cursor-pointer" title="Supprimer">
                                 <img src="{{ asset('icons/trash.svg') }}" />
                             </span>
                         </div>
