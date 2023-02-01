@@ -92,6 +92,12 @@ Lancer le projet
 symfony server:start
 ```
 
+### Se connecter avec le compte admin
+
+identifiant : `admin@gmail.com`
+
+mot de passe : `k8i8WV3Ua2Yi2w`
+
 # Commandes
 
 ## Controller & Entité
