@@ -1,0 +1,53 @@
+{% for media in medias %}
+    <div class="modal-media-{{ media.id }} absolute top-0 bottom-0 right-0 left-0 justify-center items-center z-10" style="display: none;">
+        <div id="bg-close-modal-{{ media.id }}" class="bg-close-modal absolute w-full h-full bg-black opacity-20 z-20"></div>
+        <div class="bg-white opacity-1 z-30 p-16 rounded-3xl flex flex-col gap-6">
+            <div class="flex justify-center">
+                <audio controls src="{{ asset('img/uploads/') ~ media.path }}" class="{{ 'mp3' in media.path ? 'w-full' : 'hidden' }}"></audio>
+                <img
+                    src="{{ asset('img/uploads/') ~ media.path }}"
+                    class="{{ 'mp3' in media.path ? 'hidden' : '' }} {{ media.width > media.height ? 'w-[400px]' : 'h-[300px]' }}"
+                />
+            </div>
+
+            <div class="flex justify-between gap-8">
+                <div>
+                    <span class="font-semibold">TITRE : </span>
+                    <span>{{ media.title }}</span>
+                </div>
+                <div>
+                    <span class="font-semibold">CATÉGORIE : </span>
+                    <span>{{ media.category.label }}</span>
+                </div>
+                <div>
+                    <span class="font-semibold">NUMÉRO : </span>
+                    <span>{{ media.user.id }}</span>
+                </div>
+            </div>
+
+            <div>
+                <span class="font-semibold mb-3">DESCRIPTION :</span>
+                <p>{{ media.description }}</p>
+            </div>
+
+            <div class="flex justify-end gap-6">
+                {% if app.user %}
+                    {% if 'ROLE_ADMIN' in user.roles %}
+                        <div class="flex gap-2 cursor-pointer">
+                            <img src="{{ asset('icons/element.svg') }}" />
+                            <span>Taille</span>
+                        </div>
+                        <div class="flex gap-2 cursor-pointer">
+                            <img src="{{ asset('icons/trash.svg') }}" />
+                            <span>Supprimer</span>
+                        </div>
+                    {% endif %}
+                {% endif %}
+                <div class="flex gap-2 cursor-pointer">
+                    <img src="{{ asset('icons/add.svg') }}" class="rotate-45" />
+                    <span id="close-modal-{{ media.id }}" class="close-modal">Fermer</span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}

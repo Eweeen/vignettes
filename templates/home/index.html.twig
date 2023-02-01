@@ -2,29 +2,55 @@
 
 {% block title %}Vignettes | Dashboard{% endblock %}
 
+{% block css %}
+<style>
+    .col-span-1 {
+        grid-column: span 1 / span 1;
+    }
+    .col-span-2 {
+        grid-column: span 2 / span 2;
+    }
+    .row-span-1 {
+        grid-row: span 1 / span 1;
+    }
+    .row-span-2 {
+        grid-row: span 2 / span 2;
+    }
+</style>
+{% endblock %}
+
 {% block body %}
-<section class="py-4 px-8 md:px-14 lg:py-16 lg:px-20">
-    <div class="w-full min-h-[10px] grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-5">
-        <div class="bg-gray-300 min-h-[200px] col-span-2"></div>
-        <div class="bg-gray-300 min-h-[200px]"></div>
-        <div class="bg-gray-300 min-h-[200px] col-span-2"></div>
-        <div class="bg-gray-300 min-h-[200px]"></div>
-        <div class="bg-gray-300 min-h-[200px]"></div>
-        <div class="bg-gray-300 min-h-[200px] col-span-2"></div>
-        <div class="bg-gray-300 min-h-[200px] row-span-2"></div>
-        <div class="bg-gray-300 min-h-[200px] col-span-2 row-span-2"></div>
-        <div class="bg-gray-300 min-h-[200px] col-span-2"></div>
-        <div class="bg-gray-300 min-h-[200px] col-span-2 row-span-2"></div>
-        <div class="bg-gray-300 min-h-[200px] row-span-2"></div>
-        <div class="bg-gray-300 min-h-[200px] col-span-2"></div>
-        <div class="bg-gray-300 min-h-[200px] col-span-2 row-span-2"></div>
-        <div class="bg-gray-300 min-h-[200px]"></div>
-        <div class="bg-gray-300 min-h-[200px]"></div>
-        <div class="bg-gray-300 min-h-[200px]"></div>
-        <div class="bg-gray-300 min-h-[200px]"></div>
-    </div>
-</section>
+    <section class="py-4 px-8 md:px-14 lg:py-16 lg:px-20">
+        <div class="w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-[repeat(6,minmax(150px,200px))] grid-rows-[auto,minmax(150px,200px)] gap-5">
+            {% for media in medias %}
+                <div
+                    id="modal-media-{{ media.id }}"
+                    class="modal-media bg-gray-300 w-full h-[{{ 200 * media.height }}px] col-span-{{ media.width }} row-span-{{ media.height }} flex justify-center items-center rounded-lg overflow-hidden cursor-pointer"
+                >
+                    <img
+                        src="{{ 'mp3' in media.path ? asset('icons/music.svg') : asset('img/uploads/') ~ media.path }}"
+                        class="{{ 'mp3' in media.path ? 'w-20 h-20' : '' }}{{ media.width > media.height ? 'h-full' : 'w-full' }}"
+                    />
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    {% include 'home/modal.html.twig' %}
 {% endblock %}
 
 {% block scripts %}
+<script>
+    const modalMedia = document.querySelectorAll('.modal-media');
+    const modalBgClose = document.querySelectorAll('.bg-close-modal');
+    const modalClose = document.querySelectorAll('.close-modal');
+
+    for (let i = 0; i < {{ medias|length }}; i++) {
+        const modal = document.querySelector('.' + modalMedia[i].id);
+
+        modalMedia[i].addEventListener('click', () => { modal.style.display = "flex"; });
+        modalBgClose[i].addEventListener('click', () => { modal.style.display = "none"; });
+        modalClose[i].addEventListener('click', () => { modal.style.display = "none"; });
+    }
+</script>
 {% endblock %}
