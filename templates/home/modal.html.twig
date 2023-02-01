@@ -1,12 +1,12 @@
 {% for media in medias %}
     <div class="modal-media-{{ media.id }} absolute top-0 bottom-0 right-0 left-0 justify-center items-center z-10" style="display: none;">
         <div id="bg-close-modal-{{ media.id }}" class="bg-close-modal absolute w-full h-full bg-black opacity-20 z-20"></div>
-        <div class="bg-white opacity-1 z-30 p-16 rounded-3xl flex flex-col gap-6">
+        <div class="bg-white opacity-1 z-30 p-16 rounded-3xl flex flex-col gap-6 max-w-[800px]">
             <div class="flex justify-center">
                 <audio controls src="{{ asset('img/uploads/') ~ media.path }}" class="{{ 'mp3' in media.path ? 'w-full' : 'hidden' }}"></audio>
                 <img
                     src="{{ asset('img/uploads/') ~ media.path }}"
-                    class="{{ 'mp3' in media.path ? 'hidden' : '' }} {{ media.width > media.height ? 'w-[400px]' : 'h-[300px]' }}"
+                    class="{{ 'mp3' in media.path ? 'hidden' : '' }} {{ media.width > media.height ? 'w-[600px]' : 'h-[400px]' }}"
                 />
             </div>
 
@@ -33,9 +33,9 @@
             <div class="flex justify-end gap-6">
                 {% if app.user %}
                     {% if 'ROLE_ADMIN' in user.roles %}
-                        <div class="flex gap-2 cursor-pointer">
-                            <img src="{{ asset('icons/element.svg') }}" />
-                            <span>Taille</span>
+                        <div id="modal-edit-media-{{ media.id }}" class="modal-edit-media flex gap-2 cursor-pointer">
+                            <img src="{{ asset('icons/edit.svg') }}" />
+                            <span>Modifier</span>
                         </div>
                         <div class="flex gap-2 cursor-pointer">
                             <img src="{{ asset('icons/trash.svg') }}" />
@@ -48,6 +48,38 @@
                     <span id="close-modal-{{ media.id }}" class="close-modal">Fermer</span>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="modal-edit-media-{{ media.id }} absolute top-0 bottom-0 right-0 left-0 justify-center items-center z-10" style="display: none;">
+        <div id="bg-close-edit-modal-{{ media.id }}" class="bg-close-edit-modal absolute w-full h-full bg-black opacity-20 z-20"></div>
+        <div class="bg-white opacity-1 z-30 p-12 rounded-3xl flex flex-col gap-6 max-w-[800px]">
+            <h2 class="font-semibold text-xl">Modifier le média</h2>
+
+            <form action="{{ path('update_media', { 'id': media.id }) }}" method="post" class="flex flex-col gap-4 w-[350px]">
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" name="is_active" class="sr-only peer" {{ media.isActive ? 'checked' : '' }}>
+                    <div class="w-11 h-6 bg-gray-200 rounded-full dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Afficher le média</span>
+                </label>
+
+                <div class="flex items-center gap-2">
+                    <label for="" class="whitespace-nowrap">Largeur : </label>
+                    <input type="number" name="width" placeholder="Largeur" min="1" max="2" value="{{ media.width }}" class="w-full py-2 px-4 bg-gray-300 rounded-xl" />
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <label for="" class="whitespace-nowrap">Hauteur : </label>
+                    <input type="number" name="height" placeholder="Hauteur" min="1" max="2" value="{{ media.height }}" class="w-full py-2 px-4 bg-gray-300 rounded-xl" />
+                </div>
+
+                <div class="flex gap-4">
+                    <span id="close-edit-modal-{{ media.id }}" class="close-edit-modal text-center border border-2 border-gray-600 p-2 w-full rounded-xl cursor-pointer">Annuler</span>
+                    <button type="submit" class="bg-gray-600 text-white p-2 w-full rounded-xl">
+                        Modifier
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 {% endfor %}

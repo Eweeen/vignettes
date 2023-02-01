@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Medias;
 use App\Entity\Categories;
+use App\Repository\MediasRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,5 +37,22 @@ class MediasController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_profile');
+    }
+
+    #[Route('/update/media/{id}', name: 'update_media')]
+    public function updateMedia($id, Request $request, EntityManagerInterface $entityManager, MediasRepository $mediasRepository): Response
+    {
+        $media = $mediasRepository->find($id);
+
+        if(!$media) return $this->redirectToRoute('app_home');
+
+        $isActive = $request->get('is_active') ? true : false;
+
+        $media->setWidth($request->get('width'));
+        $media->setHeight($request->get('height'));
+        $media->setIsActive($isActive);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_home');
     }
 }
