@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Categories;
-use App\Repository\CategoriesRepository;
+use App\Entity\Medias;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,49 +15,30 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class ProfileController extends AbstractController
 {
     #[Route('/profile', name: 'app_profile')]
-    public function index(CategoriesRepository $categoriesRepository): Response
+    public function index(EntityManagerInterface $entityManager): Response
     {
-        // usually you'll want to make sure the user is authenticated first,
-        // see "Authorization" below
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        // returns your User object, or null if the user is not authenticated
-        // use inline documentation to tell your editor your exact User class
-        /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
-        // Call whatever methods you've added to your User class
-        // For example, if you added a getFirstName() method, you can use that.
+        $categories = $entityManager->getRepository(Categories::class, 'categories')->findAll();
+        
+        if (!in_array('ROLE_ADMIN', $user->getRoles())) {
+            $medias = $entityManager->getRepository(Medias::class, 'medias')->findBy(array('user' => $user->getId()));
 
-        if (in_array('ROLE_ADMIN', $user->getRoles())) {
-            $categories = $categoriesRepository->findAll();
-
-            return $this->render('profile/admin.html.twig', [
+            return $this->render('profile/index.html.twig', [
                 'user' => $user,
                 'categories' => $categories,
+                'medias' => $medias,
             ]);
         }
 
-        return $this->render('profile/index.html.twig', [
+        $users = $entityManager->getRepository(User::class, 'users')->findAll();
+
+        return $this->render('profile/admin.html.twig', [
             'user' => $user,
+            'categories' => $categories,
+            'users' => $users,
         ]);
-    }
-
-    #[Route('/add/categorie', name: 'add_categorie')]
-    public function addCategorie(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
-    {
-        $category = new Categories();
-        $category->setLabel($request->get('label'));
-
-        $errors = $validator->validate($category);
-
-        if (count($errors) > 0) {
-            dd($errors);
-        }
-
-        $entityManager->persist($category);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_profile');
     }
 }

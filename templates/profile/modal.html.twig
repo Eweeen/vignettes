@@ -1,0 +1,55 @@
+<div id="modal-categories" class="absolute top-0 bottom-0 right-0 left-0 justify-center items-center z-10" style="display: none;">
+    <div id="bg-close-modal" class="absolute w-full h-full bg-black opacity-20 z-20"></div>
+    <div class="bg-white opacity-1 z-30 p-12 rounded-3xl">
+        <header class="flex justify-between mb-8">
+            <h1 class="font-semibold text-xl">Ajouter un nouvelle catégorie</h1>
+            <img src="{{ asset('icons/add.svg') }}" id="close-modal" class="rotate-45 cursor-pointer" />
+        </header>
+
+        <form action="{{ path('add_categorie') }}" method="post" class="min-w-[400px]">
+            <div class="mb-4 relative">
+                <img src="{{ asset('icons/document-text.svg') }}" class="absolute top-[14px] left-[14px] w-7 h-7" />
+                <input type="text" id="label" name="label" class="w-full pl-14 p-4 bg-gray-300 rounded-xl placeholder:text-black" placeholder="Nom de la catégorie">
+            </div>
+
+            <button type="submit" class="bg-gray-600 text-white text-sm p-3 w-full rounded-xl">Ajouter</button>
+        </form>
+    </div>
+</div>
+
+{% for category in categories %}
+<div class="category-edit-{{ category.id }} absolute top-0 bottom-0 right-0 left-0 justify-center items-center z-10" style="display: none;">
+    <div id="bg-close-edit-modal-{{ category.id }}" class="bg-close-edit-modal absolute w-full h-full bg-black opacity-20 z-20"></div>
+    <div class="bg-white opacity-1 z-30 p-12 rounded-3xl">
+        <header class="flex justify-between gap-14 mb-8">
+            <h1 class="font-semibold text-xl">Modifier la catégorie</h1>
+            <img src="{{ asset('icons/add.svg') }}" id="close-modal-edit-{{ category.id }}" class="close-edit-modal rotate-45 cursor-pointer" />
+        </header>
+
+        <form action="{{ path('edit_category') }}" method="post" class="flex flex-col gap-3">
+            <input name="category" type="number" class="hidden" value="{{ category.id }}" />
+            <div class="mb-4 relative">
+                <img src="{{ asset('icons/document-text.svg') }}" class="absolute top-[14px] left-[14px] w-7 h-7" />
+                <input name="label" type="text" value="{{ category.label }}" class="w-full pl-14 p-4 bg-gray-300 rounded-xl placeholder:text-black" />
+            </div>
+            <button type="submit" class="bg-blue-500 text-white p-3 rounded-lg">Modifier</button>
+        </form>
+    </div>
+</div>
+
+<div class="category-delete-{{ category.id }} absolute top-0 bottom-0 right-0 left-0 justify-center items-center z-10" style="display: none;">
+    <div id="bg-close-delete-modal-{{ category.id }}" class="bg-close-delete-modal absolute w-full h-full bg-black opacity-20 z-20"></div>
+    <div class="bg-white opacity-1 z-30 p-12 rounded-3xl">
+        <header class="flex justify-between gap-14 mb-8">
+            <h1 class="font-semibold text-xl">Supprimer la catégorie {{ category.label }}</h1>
+            <img src="{{ asset('icons/add.svg') }}" id="close-modal-delete-{{ category.id }}" class="close-delete-modal rotate-45 cursor-pointer" />
+        </header>
+
+        <form action="{{ path('delete_category') }}" method="post" class="flex flex-col gap-3">
+            <h2>Êtes-vous sur de vouloir supprimer ?</h2>
+            <input name="category" type="number" class="hidden" value="{{ category.id }}" />
+            <button type="submit" class="bg-red-500 text-white p-3 rounded-lg">Supprimer</button>
+        </form>
+    </div>
+</div>
+{% endfor %}
